@@ -1,5 +1,6 @@
 package pertemuan10;
 
+import com.mysql.cj.xdevapi.PreparableStatement;
 import static pertemuan10.dbkoneksi.koneksi;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
@@ -27,6 +28,12 @@ public class fMahasiswa extends javax.swing.JFrame {
         DTM.addColumn("Nama Mahasiswa");
         DTM.addColumn("Jurusan");
         DTM.addColumn("Alamat");
+        
+        String[] opsiJUR = {"Pilih Jurusan","KAB","MTI","DKV","TIPAR","BD","RSK"};
+        cbJUR.removeAllItems();
+        for(int i=0;i<7;i++){
+            cbJUR.addItem(opsiJUR[i]);
+        }
         
         lsdtmhs();
         clearform();
@@ -57,6 +64,7 @@ public class fMahasiswa extends javax.swing.JFrame {
         cUBAH = new javax.swing.JButton();
         cHAPUS = new javax.swing.JButton();
         cTUTUP = new javax.swing.JButton();
+        cbJUR = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -146,6 +154,9 @@ public class fMahasiswa extends javax.swing.JFrame {
             }
         });
 
+        cbJUR.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbJUR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -176,7 +187,8 @@ public class fMahasiswa extends javax.swing.JFrame {
                                         .addComponent(cHAPUS)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(cTUTUP)))
-                                .addGap(0, 32, Short.MAX_VALUE))))
+                                .addGap(0, 32, Short.MAX_VALUE))
+                            .addComponent(cbJUR, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabel1))
                 .addContainerGap())
         );
@@ -204,6 +216,8 @@ public class fMahasiswa extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txALAMAT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbJUR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cBARU, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -225,6 +239,12 @@ public class fMahasiswa extends javax.swing.JFrame {
             cUBAH.setEnabled(false);
             cHAPUS.setEnabled(false);
         }else{
+            try {
+                storeData();
+                lsdtmhs();
+            } catch (SQLException ex) {
+                Logger.getLogger(fMahasiswa.class.getName()).log(Level.SEVERE, null, ex);
+            }
             cBARU.setText("Baru");
             cTUTUP.setText("Tutup");
             cUBAH.setEnabled(true);
@@ -308,6 +328,7 @@ public class fMahasiswa extends javax.swing.JFrame {
     private javax.swing.JButton cHAPUS;
     private javax.swing.JButton cTUTUP;
     private javax.swing.JButton cUBAH;
+    private javax.swing.JComboBox<String> cbJUR;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -323,6 +344,9 @@ public class fMahasiswa extends javax.swing.JFrame {
 
     private void lsdtmhs() throws SQLException {
         Connection cnn = koneksi();
+        
+        DTM.getDataVector().removeAllElements();
+        DTM.fireTableDataChanged();
         
         if( !cnn.isClosed() ){
             PreparedStatement PS = cnn.prepareStatement("SELECT * FROM mhs;");
@@ -346,6 +370,25 @@ public class fMahasiswa extends javax.swing.JFrame {
         txNIM.setText("");
         txJUR.setText("");
         txALAMAT.setText("");
+    }
+
+    private void storeData() throws SQLException {
+        Connection cnn = koneksi();
+        String nim = txNIM.getText();
+        String nama = txNAMA.getText();
+        String jur = txJUR.getText();
+        String alamat = txALAMAT.getText();
+        
+        if(!cnn.isClosed()){
+            PreparedStatement PS = cnn.prepareStatement("INSERT INTO mhs(NIM,NAMA,JURUSAN,ALAMAT) VALUES(?,?,?,?);");
+            PS.setString(1, nim);
+            PS.setString(2, nama);
+            PS.setString(3, jur);
+            PS.setString(4, alamat);
+            PS.executeUpdate();
+            cnn.close();
+        }
+        
     }
     
 }
