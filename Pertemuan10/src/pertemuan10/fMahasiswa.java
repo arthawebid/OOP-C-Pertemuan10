@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Made Artha
@@ -35,9 +36,28 @@ public class fMahasiswa extends javax.swing.JFrame {
             cbJUR.addItem(opsiJUR[i]);
         }
         
+        //txJUR.setVisible(false);
+        //cbJUR.setLocation(486,219);
         lsdtmhs();
         clearform();
-        
+        tombol(false);
+        cBARU.setEnabled(true);
+        cTUTUP.setEnabled(true);
+        fieldAktif(false);
+        cbJUR.setVisible(false);
+    }
+    
+    private void tombol(boolean opsi){
+        cBARU.setEnabled(opsi);
+        cUBAH.setEnabled(opsi);
+        cHAPUS.setEnabled(opsi);
+        cTUTUP.setEnabled(opsi);
+    }
+    private void fieldAktif(boolean opsi){
+        txNIM.setEditable(opsi);
+        txNAMA.setEditable(opsi);
+        txJUR.setEditable(opsi);
+        txALAMAT.setEditable(opsi);
     }
 
     /**
@@ -165,16 +185,19 @@ public class fMahasiswa extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txNIM)
                             .addComponent(txNAMA)
                             .addComponent(txALAMAT)
                             .addComponent(txJUR)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel4)
@@ -186,12 +209,13 @@ public class fMahasiswa extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(cHAPUS)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cTUTUP)))
-                                .addGap(0, 32, Short.MAX_VALUE))
-                            .addComponent(cbJUR, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jLabel1))
-                .addContainerGap())
+                                        .addComponent(cTUTUP, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cbJUR, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))))))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cBARU, cHAPUS, cTUTUP, cUBAH});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -212,20 +236,22 @@ public class fMahasiswa extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txJUR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbJUR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txALAMAT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbJUR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cBARU, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cBARU, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cUBAH, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cHAPUS, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cTUTUP, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cBARU, cHAPUS, cTUTUP, cUBAH});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -234,6 +260,11 @@ public class fMahasiswa extends javax.swing.JFrame {
         
         if(cBARU.getText().equals("Baru")){
             clearform();
+            fieldAktif(true);
+            
+            txJUR.setVisible(false);
+            cbJUR.setVisible(true);
+            
             cBARU.setText("Simpan");
             cTUTUP.setText("Batal");
             cUBAH.setEnabled(false);
@@ -247,8 +278,11 @@ public class fMahasiswa extends javax.swing.JFrame {
             }
             cBARU.setText("Baru");
             cTUTUP.setText("Tutup");
-            cUBAH.setEnabled(true);
-            cHAPUS.setEnabled(true);
+            clearform();
+            fieldAktif(false);
+            
+            txJUR.setVisible(true);
+            cbJUR.setVisible(false);
         }
         
     }//GEN-LAST:event_cBARUActionPerformed
@@ -263,11 +297,47 @@ public class fMahasiswa extends javax.swing.JFrame {
     }//GEN-LAST:event_cUBAHActionPerformed
 
     private void cHAPUSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cHAPUSActionPerformed
-        // TODO add your handling code here:
+        
+        int opsi = JOptionPane.showOptionDialog(this, 
+             "Yakin akan Menghapus Data "+txNIM.getText() +" ?", 
+             "Konfirmasi Hapus Data", 
+             JOptionPane.YES_NO_OPTION, 
+             JOptionPane.QUESTION_MESSAGE, 
+             null, null, null);
+            if(opsi==JOptionPane.YES_OPTION){
+            try {
+                    destroyData();
+                    lsdtmhs();
+                    clearform();
+                    cHAPUS.setEnabled(false);
+                    cUBAH.setEnabled(false);
+                    
+                } catch (SQLException ex) {
+                    System.out.print("Error");
+                }
+            }
+        
     }//GEN-LAST:event_cHAPUSActionPerformed
 
     private void cTUTUPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTUTUPActionPerformed
-        // TODO add your handling code here:
+        if(cTUTUP.getText().equals("Tutup")){
+            int opsi = JOptionPane.showOptionDialog(this, 
+                    "Yakin akan menutup Aplikasi ?", 
+                    "Konfirmasi Tutup Aplikasi", 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.QUESTION_MESSAGE, 
+                    null, null, null);
+            if(opsi==JOptionPane.YES_OPTION){
+                System.exit(0);
+            }
+            
+        }else{
+            cTUTUP.setText("Tutup");
+            cBARU.setText("Baru");
+            cbJUR.setVisible(false);
+            txJUR.setVisible(true);
+            fieldAktif(false);
+        }
     }//GEN-LAST:event_cTUTUPActionPerformed
 
     private void tblmhsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblmhsMouseClicked
@@ -277,6 +347,9 @@ public class fMahasiswa extends javax.swing.JFrame {
         txJUR.setText( tblmhs.getValueAt( tblmhs.getSelectedRow() , 2).toString() );
         txALAMAT.setText( tblmhs.getValueAt( tblmhs.getSelectedRow() , 3).toString() );
         
+        cUBAH.setEnabled(true);
+        cHAPUS.setEnabled(true);
+                
     }//GEN-LAST:event_tblmhsMouseClicked
 
     private void cBARUMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cBARUMouseClicked
@@ -376,7 +449,7 @@ public class fMahasiswa extends javax.swing.JFrame {
         Connection cnn = koneksi();
         String nim = txNIM.getText();
         String nama = txNAMA.getText();
-        String jur = txJUR.getText();
+        String jur = String.valueOf( cbJUR.getSelectedItem() );
         String alamat = txALAMAT.getText();
         
         if(!cnn.isClosed()){
@@ -385,6 +458,35 @@ public class fMahasiswa extends javax.swing.JFrame {
             PS.setString(2, nama);
             PS.setString(3, jur);
             PS.setString(4, alamat);
+            PS.executeUpdate();
+            cnn.close();
+        }
+    }
+    
+    private void updateData() throws SQLException {
+        Connection cnn = koneksi();
+        String nim = txNIM.getText();
+        String nama = txNAMA.getText();
+        String jur = String.valueOf( cbJUR.getSelectedItem() );
+        String alamat = txALAMAT.getText();
+        
+        if(!cnn.isClosed()){
+            PreparedStatement PS = cnn.prepareStatement("UPDATE mhs SET NAMA=?,JURUSAN=?,ALAMAT=? WHERE NIM=?;");
+            PS.setString(1, nama);
+            PS.setString(2, jur);
+            PS.setString(3, alamat);
+            PS.setString(4, nim);
+            PS.executeUpdate();
+            cnn.close();
+        }
+    }
+    private void destroyData() throws SQLException {
+        Connection cnn = koneksi();
+        String nim = txNIM.getText();
+        
+        if(!cnn.isClosed()){
+            PreparedStatement PS = cnn.prepareStatement("DELETE FROM mhs WHERE NIM=?;");
+            PS.setString(1, nim);
             PS.executeUpdate();
             cnn.close();
         }
