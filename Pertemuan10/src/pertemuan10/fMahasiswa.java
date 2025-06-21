@@ -289,10 +289,32 @@ public class fMahasiswa extends javax.swing.JFrame {
 
     private void cUBAHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cUBAHActionPerformed
         if(cUBAH.getText().equals("Ubah")){
-            clearform();
             cUBAH.setText("Simpan");
+            cTUTUP.setText("Batal");
+            cBARU.setEnabled(false);
+            cHAPUS.setEnabled(false);
+            fieldAktif(true);
+            txNIM.setEditable(false);
+            txJUR.setVisible(false);
+            cbJUR.setVisible(true);
+            cbJUR.setSelectedItem(txJUR.getText());
         }else{
+            
+            try {
+                updateData();
+                lsdtmhs();
+            } catch (SQLException ex) {
+                Logger.getLogger(fMahasiswa.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             cUBAH.setText("Ubah");
+            cTUTUP.setText("Tutup");
+            cBARU.setEnabled(true);
+            cUBAH.setEnabled(false);
+            txJUR.setVisible(true);
+            cbJUR.setVisible(false);
+            fieldAktif(false);
+            clearform();
         }
     }//GEN-LAST:event_cUBAHActionPerformed
 
@@ -334,9 +356,13 @@ public class fMahasiswa extends javax.swing.JFrame {
         }else{
             cTUTUP.setText("Tutup");
             cBARU.setText("Baru");
+            cUBAH.setText("Ubah");
+            cBARU.setEnabled(true);
+            cUBAH.setEnabled(false);
             cbJUR.setVisible(false);
             txJUR.setVisible(true);
             fieldAktif(false);
+            clearform();
         }
     }//GEN-LAST:event_cTUTUPActionPerformed
 
